@@ -24,7 +24,7 @@ var MyController = LI.Object.extend( function (base) {
       var self = this;
       setTimeout(function () {
         self.set('showButton', false);
-      }, 2000)
+      }, 2000);
     },
     showButton: true
   };
@@ -36,7 +36,6 @@ var MyView = LI.Object.extend( function (base) {
     el: $('#name'),
     init: function () {
       this.el.on('keyup', $.proxy(this._update, this));
-
     },
     _update: function ( evt ) {
       this.set('firstName', evt.target.value);
@@ -44,14 +43,14 @@ var MyView = LI.Object.extend( function (base) {
     render: function () {
       var name = this.get('firstName');
       this.el.val(name);
-      $('p').text(name)
+      $('p').text(name);
     },
     firstNameChanged: function (firstName) {
-      console.log( firstName )
+      console.log( firstName );
       this.render();
     },
     showButtonChanged: function (buttonState) {
-      console.log( buttonState )
+      console.log( buttonState );
       var isButtonShown= this.get('showButton');
 
       if (isButtonShown) {
@@ -68,12 +67,15 @@ var model = new MyModel();
 var view = new MyView();
 var controller = new MyController(model, view);
 
-// These can go
 controller.bindTo('firstName', model);
-view.bindTo('firstName', controller);
+view.bindTo('firstName', controller); // Proxied from the model
 view.bindTo('showButton', controller);
 
 view.firstNameChanged = function () {
-  console.log( 'foooo')
-}
+  console.log( 'foooo');
+};
+
+controller.firstNameChanged = function () {
+  console.log( 'from the ctrl' );
+};
 
